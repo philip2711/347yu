@@ -1,5 +1,7 @@
 package com.example.assignmenta2;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,7 @@ public class RandomFactActivity extends AppCompatActivity {
     private String JSON_URL = "https://uselessfacts.jsph.pl/random.json?language=en";
     private JsonObjectRequest request;
     private RequestQueue requestQueue;
+    public String responsefact = " ";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +42,9 @@ public class RandomFactActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 if (response.length() > 0) {
                     try {
-                        fact.setText(response.getString("text"));
+                        String facto = response.getString("text");
+                        fact.setText(facto);
+                        responsefact = facto;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -69,4 +74,10 @@ public class RandomFactActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    public void lookitup(View v){
+        Intent implicit = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=" + responsefact));
+        v.getContext().startActivity(implicit);
+    }
+
 }
